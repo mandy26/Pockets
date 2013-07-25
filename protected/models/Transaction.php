@@ -1,6 +1,6 @@
 <?php
 
-class Account extends CActiveRecord
+class Transaction extends CActiveRecord
 {
     public static function model($className=__CLASS__)
     {
@@ -9,14 +9,11 @@ class Account extends CActiveRecord
  
     public function tableName()
     {
-        return 'account';
+        return 'transaction';
     }
 	public function rules()
 	{
-		return array(
-			array('name', 'required'),
-			array('name', 'unique'),
-		);
+		return array();
 		
 	}
 }

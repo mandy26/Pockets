@@ -6,6 +6,7 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return CMap::mergeArray(require(dirname(__FILE__).DIRECTORY_SEPARATOR.'common.php'), array(
+	'defaultController' => 'dashboard',
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Web Application',
 
@@ -42,8 +43,7 @@ return CMap::mergeArray(require(dirname(__FILE__).DIRECTORY_SEPARATOR.'common.ph
 			'caseSensitive' => false,        
 		),
 		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction'=>'dashboard/error',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',

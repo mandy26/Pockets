@@ -5,7 +5,14 @@ class CategoryController extends Controller
 
 	public function actionEdit($id=false) 
 	{
-		$category=new Category;
+		if($id===false)
+		{
+			$category=new Category;
+		} else
+		{
+			$category=Category::model()->findByPk($id);
+			if(!$category) throw new CHttpException (404,'category not found');
+		}
 		if(isset($_POST['Category']))
 		{
 			$category->attributes=$_POST['Category'];
