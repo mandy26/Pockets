@@ -20,6 +20,8 @@
 				array ('account/edit','id' => $a->id)) ?></li>
 			<?php 
 			} ?></ul>
+			
+			<?php $this->renderPartial('_income') ?>
 		</div>
 	</div>
 </div>
