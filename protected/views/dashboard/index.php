@@ -12,7 +12,7 @@
 			
 		</div>
 		<div class="span10">
-			another something
+			<?php $this->renderPartial('_expense') ?>
 			
 			<ul><?php foreach ($accounts as $a)
 			{ ?>
