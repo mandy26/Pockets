@@ -6,7 +6,7 @@
 	<?php echo $form->errorSummary($category); ?>
 
 	<div class="control-group">
-		<?php echo $form->label($category, 'name', array('class' => 'control-label', 'bar' => 'foo')); ?>
+		<?php echo $form->label($category, 'name', array('class' => 'control-label')); ?>
 		<div class="controls">
 			<?php echo $form->textField($category, 'name', array('placeholder' => 'Name')) ?>
 		</div>

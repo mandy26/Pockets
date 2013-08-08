@@ -7,10 +7,27 @@ class DashboardController extends Controller
 	{
 		$categories=Category::model()->findAll();
 		$accounts=Account::model()->findAll();
+		$expense=new Transaction;
+
+		$income=new IncomeForm;
+		if(isset($_POST['IncomeForm']))
+		{
+			$income->attributes=$_POST['IncomeForm'];
+			$income->allocations = array();
+			foreach ($_POST['IncomeAllocationForm'] as $row) {
+				$a = new IncomeAllocationForm;
+				$a->attributes = $row;
+				$a->validate();
+				$income->allocations[] = $a;
+			}
+			$income->validate();
+		}
+
 		$this->render('index',array (
 			'accounts' => $accounts,
-			'categories' => $categories
-		
+			'categories' => $categories,
+			'expense' => $expense,
+			'income' => $income
 		));
 		
 		

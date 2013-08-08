@@ -13,7 +13,18 @@ class Transaction extends CActiveRecord
     }
 	public function rules()
 	{
-		return array();
+		return array(
+			array('amount, date, account_id, category_id', 'required'),
+			array('category_id', 'exist', 'className' => 'Category'),
+			array('account_id', 'exist', 'className' => 'Account'),
+			array('amount','numerical'),
+		);
 		
 	}
+
+	public function attributeLabels() {
+		return array(
+		);
+	}
+
 }

@@ -7,14 +7,18 @@
 	<div class="row">
 		<div class="span10">
 			<input type="text" class="input-small" placeholder="Date">
-			<select class="input-medium"><option>select category</option></select>
+			<?php echo $form->dropDownList($trans, 'category_id',
+				CHtml::listData($categories, 'id', 'name'), array(
+				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
 			<input type="text" class="input-xlarge" placeholder="Notes">
 		</div>	
 	</div>
 	<div class="row">
 		<div class="span10">
 			<input type="text" class="input-small" placeholder="Amount">
-			<select class="input-medium"><option>select account</option></select>
+			<?php echo $form->dropDownList($trans, 'account_id',
+				CHtml::listData($accounts, 'id', 'name'), array(
+				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
 		</div>	
 	</div>
 
