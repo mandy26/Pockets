@@ -55,23 +55,7 @@
 					<select class="span1"></select>
 				</div>
 			</div>
-			<?php foreach ($trans->allocations as $i => $a)
-			{ ?>
-			<div class="row">
-				<div class="span2">
-					<?php echo $form->dropDownList($a, "[$i]category_id",
-						CHtml::listData($categories, 'id', 'name'), array(
-						'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
-					<?php echo $form->error($a, 'category_id') ?>
-				</div>
-				<div class="span2">
-					<?php echo $form->textField($a, "[$i]amount", array('placeholder' => 'Amount', 
-						'class' => 'span2')) ?>
-					<?php echo $form->error($a, 'amount') ?>
-				</div>
-			</div>
-			<?php 
-			} ?>
+			<?php foreach ($trans->allocations as $i => $a) income_row($form, $a, $i, $categories); ?>
 			<div class="row">
 				<div class="span2 text-right">
 					Total:
@@ -88,3 +72,36 @@
 		</div>
 	</div>
 <?php $this->endWidget(); ?>
+
+<div id="income-spare-row" style="display:none"><?php income_row($form, new IncomeAllocationForm, '{i}', $categories) ?></div>
+
+<?php
+function income_row($form, $a, $i, $categories) {
+	?>
+	<div class="row income-item">
+		<div class="span2 <?php echo $a->hasErrors('category_id') ? 'control-group error' : '' ?>">
+			<?php echo $form->dropDownList($a, "[$i]category_id",
+				CHtml::listData($categories, 'id', 'name'), array(
+				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
+			<?php echo $form->error($a, 'category_id') ?>
+		</div>
+		<div class="span2 <?php echo $a->hasErrors('amount') ? 'control-group error' : '' ?>">
+			<?php echo $form->textField($a, "[$i]amount", array('placeholder' => 'Amount', 
+				'class' => 'span2')) ?>
+			<?php echo $form->error($a, 'amount') ?>
+		</div>
+	</div>
+	<?php
+}
+
+
+ob_start(); ?>
+	var income_row_number = <?php echo $i ?>;
+	jQuery('#income-form').on('focus', '.income-item:last', function() {
+		income_row_number++;
+		var html = jQuery('#income-spare-row').html().replace(/\{i\}/g, income_row_number);
+		jQuery('#income-form .income-item:last').after(html);
+	});
+<?php
+$income_rows_js = ob_get_clean();
+Yii::app()->clientScript->registerScript('income_rows', $income_rows_js);

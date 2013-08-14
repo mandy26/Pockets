@@ -13,4 +13,10 @@ class IncomeAllocationForm extends CFormModel
 			array('amount','numerical'),
 		);
 	}
+
+	public function attributeLabels() {
+		return array(
+			'category_id' => 'Category',
+		);
+	}
 }

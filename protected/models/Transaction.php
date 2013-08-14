@@ -15,8 +15,8 @@ class Transaction extends CActiveRecord
 	{
 		return array(
 			array('amount, date, account_id, category_id', 'required'),
-			array('category_id', 'exist', 'className' => 'Category'),
-			array('account_id', 'exist', 'className' => 'Account'),
+			array('category_id', 'exist', 'className' => 'Category', 'attributeName' => 'id'),
+			array('account_id', 'exist', 'className' => 'Account', 'attributeName' => 'id'),
 			array('amount','numerical'),
 		);
 		

@@ -15,12 +15,15 @@ class DashboardController extends Controller
 			$income->attributes=$_POST['IncomeForm'];
 			$income->allocations = array();
 			foreach ($_POST['IncomeAllocationForm'] as $row) {
+				if (!$row['category_id'] && !$row['amount']) continue;
 				$a = new IncomeAllocationForm;
 				$a->attributes = $row;
-				$a->validate();
 				$income->allocations[] = $a;
 			}
-			$income->validate();
+			if ($income->save()) {
+				$this->redirect(Yii::app()->homeUrl);
+			}
+			if (!$income->allocations) $income->allocations[] = new IncomeAllocationForm;
 		}
 
 		$this->render('index',array (
