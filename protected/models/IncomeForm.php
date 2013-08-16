@@ -14,6 +14,7 @@ class IncomeForm extends CFormModel
 			array('net_amount, account_id, date', 'required'),
 			array('gross_amount, net_amount', 'numerical'),
 			array('notes', 'safe'),
+			array('date', 'date', 'format' => 'yyyy-MM-dd'),
 		);
 	}
 
@@ -31,32 +32,48 @@ class IncomeForm extends CFormModel
 
 	public function save()
 	{
+		if ($d = strtotime($this->date)) $this->date = date('Y-m-d', $d);
 		if (!$this->validate() || !$this->allocations) return false;
-		$parent_id = null;
+		$parent=new Padre;
+		$parent->attributes = array(
+				'date' => $this->date,
+				'net_amount' => $this->net_amount,
+				'gross_amount' => $this->gross_amount,
+				'account_id' => $this->account_id,
+				'notes_2' => $this->notes,
+			);
+		$parent->save();
+		$parent_id = $parent->id;
 		foreach ($this->allocations as $a)
 		{
 			$t=new Transaction;
 			$t->attributes = array(
-				'date' => $this->date,
 				'category_id' => $a->category_id,
 				'amount' => $a->amount,
-				'account_id' => $this->account_id,
 				'notes' => $this->notes,
 			);
 			$t->parent_id = $parent_id;
 			$t->save();
-			if (!$parent_id) $parent_id = $t->id;
 		}
 		return true;
 	}
 
-	public function validate($attributes = null, $clearErrors = true) {
-		if (!parent::validate($attributes, $clearErrors)) return false;
+	public function validate($attributes = null, $clearErrors = true) 
+	{
+		$success = true;
+		if (!parent::validate($attributes, $clearErrors)) $success = false;
+		$sum=0;
 		foreach ($this->allocations as $a)
 		{
-			if (!$a->validate()) return false;
+			$sum+=$a->amount;
+			if (!$a->validate()) $success = false;
 		}
-		return true;
+		if ($sum!=$this->net_amount) 
+		{
+			$this->addError('net_amount', 'Sum does not equal net amount');
+			$success = false;
+		}
+		return $success;
 	}
 
 }

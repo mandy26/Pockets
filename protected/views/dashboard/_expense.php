@@ -16,7 +16,7 @@
 	<div class="row">
 		<div class="span10">
 			<input type="text" class="input-small" placeholder="Amount">
-			<?php echo $form->dropDownList($trans, 'account_id',
+			<?php if(0) echo $form->dropDownList($trans, 'account_id',
 				CHtml::listData($accounts, 'id', 'name'), array(
 				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
 		</div>	
