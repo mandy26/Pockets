@@ -75,5 +75,10 @@ class IncomeForm extends CFormModel
 		}
 		return $success;
 	}
-
+	public function sum ()
+	{
+		$sum=0;
+		foreach ($this->allocations as $a) $sum+=$a->amount;
+		return $sum;	
+	}
 }

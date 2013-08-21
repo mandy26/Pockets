@@ -60,8 +60,16 @@
 				<div class="span2 text-right">
 					Total:
 				</div>
-				<div class="span2">
-					$1,000,000.00
+				<div class="span2 sum">
+					$<?php echo number_format ($trans->sum (), 2) ?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span2 text-right">
+					Remainder:
+				</div>
+				<div class="span2 remainder">
+					$<?php echo number_format ($trans->net_amount - $trans->sum (), 2) ?>
 				</div>
 			</div>
 		</div>
@@ -87,7 +95,7 @@ function income_row($form, $a, $i, $categories) {
 		</div>
 		<div class="span2 <?php echo $a->hasErrors('amount') ? 'control-group error' : '' ?>">
 			<?php echo $form->textField($a, "[$i]amount", array('placeholder' => 'Amount', 
-				'class' => 'span2')) ?>
+				'class' => 'span2 amount')) ?>
 			<?php echo $form->error($a, 'amount') ?>
 		</div>
 	</div>
@@ -101,6 +109,16 @@ ob_start(); ?>
 		income_row_number++;
 		var html = jQuery('#income-spare-row').html().replace(/\{i\}/g, income_row_number);
 		jQuery('#income-form .income-item:last').after(html);
+	}).on('change', 'input.amount, #IncomeForm_net_amount', function() {
+		var sum = 0;
+		jQuery('#income-form input.amount').each(function(i, el) {
+			var value = Number(jQuery(el).val());
+			if (value) sum += value;
+		});
+		jQuery('#income-form .sum').text('$'+sum.toFixed(2));
+		var net = Number(jQuery('#IncomeForm_net_amount').val());
+		var remainder = (net ? net : 0) - sum;
+		jQuery('#income-form .remainder').text('$'+remainder.toFixed(2));
 	});
 <?php
 $income_rows_js = ob_get_clean();
