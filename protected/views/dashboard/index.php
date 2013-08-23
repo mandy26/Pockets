@@ -3,7 +3,7 @@
 		<div class="span2">
 			<ul><?php foreach ($categories as $c)
 			{ ?>
-			<li><?php echo CHtml::link(CHtml::encode($c->name), 
+			<li>$<?php echo $c->balance ?> <?php echo CHtml::link(CHtml::encode($c->name), 
 				array ('category/edit','id' => $c->id)) ?></li>
 			<?php 
 			} ?></ul>
@@ -23,7 +23,7 @@
 			<ul><?php foreach ($accounts as $a)
 			{ ?>
 			<li><?php echo CHtml::link(CHtml::encode($a->name), 
-				array ('account/edit','id' => $a->id)) ?></li>
+				array ('account/edit','id' => $a->id)) ?> $<?php echo $a->balance ?> </li>
 			<?php 
 			} ?></ul>
 			

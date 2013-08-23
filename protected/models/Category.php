@@ -19,4 +19,12 @@ class Category extends CActiveRecord
 		);
 		
 	}
+
+	public function relations()
+	{
+		return array(
+			'balance'=>array(self::STAT, 'Transaction', 'category_id', 'select' => 'sum(amount)'),
+		);
+	}
+
 }

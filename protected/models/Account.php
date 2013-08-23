@@ -2,15 +2,15 @@
 
 class Account extends CActiveRecord
 {
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
  
-    public function tableName()
-    {
-        return 'account';
-    }
+	public function tableName()
+	{
+		return 'account';
+	}
 	public function rules()
 	{
 		return array(
@@ -19,4 +19,12 @@ class Account extends CActiveRecord
 		);
 		
 	}
+
+	public function relations()
+	{
+		return array(
+			'balance'=>array(self::STAT, 'Padre', 'account_id', 'select' => 'sum(net_amount)'),
+		);
+	}
+
 }

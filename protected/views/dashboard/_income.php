@@ -120,6 +120,9 @@ ob_start(); ?>
 		var remainder = (net ? net : 0) - sum;
 		jQuery('#income-form .remainder').text('$'+remainder.toFixed(2));
 	});
+	jQuery('#IncomeForm_date').datepicker();
 <?php
 $income_rows_js = ob_get_clean();
-Yii::app()->clientScript->registerScript('income_rows', $income_rows_js);
+Yii::app()->clientScript
+	->registerScript('income_rows', $income_rows_js)
+	->registerPackage('datepicker');

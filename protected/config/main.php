@@ -19,18 +19,6 @@ return CMap::mergeArray(require(dirname(__FILE__).DIRECTORY_SEPARATOR.'common.ph
 		'application.components.*',
 	),
 
-	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		/*
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1'),
-		),
-		*/
-	),
-
 	// application components
 	'components'=>array(
 		'user'=>array(
@@ -60,12 +48,23 @@ return CMap::mergeArray(require(dirname(__FILE__).DIRECTORY_SEPARATOR.'common.ph
 				*/
 			),
 		),
+		'clientScript' => array(
+			'coreScriptPosition' => CClientScript::POS_END,
+			'defaultScriptFilePosition' => CClientScript::POS_END,
+			'packages' => array(
+				'jquery.ui.css' => array(
+					'css' => array('jui/css/base/jquery-ui.css'),
+				),
+				'datepicker' => array(
+					'depends' => array('jquery.ui', 'jquery.ui.css'),
+				),
+			),
+		),
 	),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
 	),
+
 ), require(dirname(__FILE__).DIRECTORY_SEPARATOR.'private.php'));

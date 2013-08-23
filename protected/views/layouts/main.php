@@ -15,7 +15,6 @@
 <?php if($this->route != 'dashboard/index') echo CHtml::link ('Home', '/').'<br />'; ?>
 <?php echo $content ?>
 
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
+<?php Yii::app()->clientScript->registerScriptFile('/bootstrap/js/bootstrap.min.js') ?>
 </body>
 </html>
