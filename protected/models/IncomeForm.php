@@ -1,6 +1,9 @@
 <?php
 class IncomeForm extends CFormModel
 {
+	protected $negative = false;
+	public $split = true;
+
  	public $gross_amount;
 	public $net_amount;
 	public $account_id;
@@ -37,8 +40,8 @@ class IncomeForm extends CFormModel
 		$parent=new Padre;
 		$parent->attributes = array(
 				'date' => $this->date,
-				'net_amount' => $this->net_amount,
-				'gross_amount' => $this->gross_amount,
+				'net_amount' => $this->net_amount * ($this->negative ? -1 : 1),
+				'gross_amount' => $this->gross_amount * ($this->negative ? -1 : 1),
 				'account_id' => $this->account_id,
 				'notes_2' => $this->notes,
 			);
@@ -49,7 +52,7 @@ class IncomeForm extends CFormModel
 			$t=new Transaction;
 			$t->attributes = array(
 				'category_id' => $a->category_id,
-				'amount' => $a->amount,
+				'amount' => $a->amount * ($this->negative ? -1 : 1),
 				'notes' => $this->notes,
 			);
 			$t->parent_id = $parent_id;
@@ -66,7 +69,7 @@ class IncomeForm extends CFormModel
 		foreach ($this->allocations as $a)
 		{
 			$sum+=$a->amount;
-			if (!$a->validate()) $success = false;
+			if (!$a->validate($this->split ? null : array('category_id'))) $success = false;
 		}
 		if ($sum!=$this->net_amount) 
 		{
@@ -75,7 +78,8 @@ class IncomeForm extends CFormModel
 		}
 		return $success;
 	}
-	public function sum ()
+
+	public function sum()
 	{
 		$sum=0;
 		foreach ($this->allocations as $a) $sum+=$a->amount;

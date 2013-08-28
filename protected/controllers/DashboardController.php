@@ -7,7 +7,20 @@ class DashboardController extends Controller
 	{
 		$categories=Category::model()->findAll();
 		$accounts=Account::model()->findAll();
-		$expense=new Transaction;
+		$expense=new ExpenseForm;
+		$expense->split = false;
+		if(isset($_POST['ExpenseForm']))
+		{
+			$expense->attributes=$_POST['ExpenseForm'];
+			$a = new IncomeAllocationForm;
+			$a->attributes = $_POST['IncomeAllocationForm'];
+			$a->amount = $expense->net_amount;
+			$expense->allocations = array($a);
+			if ($expense->save()) {
+				$this->redirect(Yii::app()->homeUrl);
+			}
+			if (!$expense->allocations) $expense->allocations[] = new IncomeAllocationForm;
+		}
 
 		$income=new IncomeForm;
 		if(isset($_POST['IncomeForm']))

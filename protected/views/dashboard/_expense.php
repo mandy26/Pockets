@@ -4,24 +4,38 @@
 		'id' => 'expense-form',
 	),
 )); ?>
+<?php if ($error=$form->errorSummary(array($trans, $trans->allocations[0])))
+{ ?>	
 	<div class="row">
 		<div class="span10">
-			<input type="text" class="input-small" placeholder="Date">
-			<?php echo $form->dropDownList($trans, 'category_id',
-				CHtml::listData($categories, 'id', 'name'), array(
-				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
-			<input type="text" class="input-xlarge" placeholder="Notes">
+			<?php echo $error ?>
+		</div>
+	</div>
+<?php } ?>
+	<div class="row">
+		<div class="span10">
+			<?php echo $form->textField($trans, 'date', array('placeholder' => 'Date',
+				'class' => 'input-small')) ?>
+			<?php echo $form->dropDownList($trans, 'account_id',
+				CHtml::listData($accounts, 'id', 'name'), array(
+				'class' => 'input-medium', 'prompt' => 'choose an account')) ?>			
+			<?php echo $form->textField($trans, 'notes', array('placeholder' => 'Notes',
+				'class' => 'input-xlarge')) ?>
 		</div>	
 	</div>
 	<div class="row">
 		<div class="span10">
-			<input type="text" class="input-small" placeholder="Amount">
-			<?php if(0) echo $form->dropDownList($trans, 'account_id',
-				CHtml::listData($accounts, 'id', 'name'), array(
-				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
+			<?php echo $form->textField($trans, 'net_amount', array('placeholder' => 'Amount',
+				'class' => 'input-small')) ?>
+			<?php echo $form->dropDownList($trans->allocations[0], 'category_id',
+				CHtml::listData($categories, 'id', 'name'), array(
+				'class' => 'input-medium', 'prompt' => 'choose a category')) ?>
+			<a href="">Split</a>
+			<input type="submit" class="btn">
 		</div>	
 	</div>
 
+<!--
 	<hr>
 	
 	<div class="row">
@@ -36,4 +50,5 @@
 			Remainder: $$
 		</div>
 	</div>
+-->
 <?php $this->endWidget(); ?>
