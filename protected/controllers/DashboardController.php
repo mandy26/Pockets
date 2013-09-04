@@ -19,8 +19,8 @@ class DashboardController extends Controller
 			if ($expense->save()) {
 				$this->redirect(Yii::app()->homeUrl);
 			}
-			if (!$expense->allocations) $expense->allocations[] = new IncomeAllocationForm;
 		}
+		if (!$expense->allocations) $expense->allocations[] = new IncomeAllocationForm;
 
 		$income=new IncomeForm;
 		if(isset($_POST['IncomeForm']))
@@ -36,17 +36,46 @@ class DashboardController extends Controller
 			if ($income->save()) {
 				$this->redirect(Yii::app()->homeUrl);
 			}
-			if (!$income->allocations) $income->allocations[] = new IncomeAllocationForm;
 		}
+		if (!$income->allocations) $income->allocations[] = new IncomeAllocationForm;
 
 		$this->render('index',array (
 			'accounts' => $accounts,
 			'categories' => $categories,
 			'expense' => $expense,
-			'income' => $income
+			'income' => $income,
 		));
 		
 		
+	}
+	
+	public function actionSplit ()
+	{
+		$categories=Category::model()->findAll();
+		$accounts=Account::model()->findAll();
+		$expense=new ExpenseForm;
+
+		if(isset($_POST['ExpenseForm']))
+		{
+			$expense->attributes=$_POST['ExpenseForm'];
+			$expense->allocations = array();
+			foreach ($_POST['IncomeAllocationForm'] as $row) {
+				if (!$row['category_id'] && !$row['amount']) continue;
+				$a = new IncomeAllocationForm;
+				$a->attributes = $row;
+				$expense->allocations[] = $a;
+			}
+			if ($expense->save()) {
+				$this->redirect(Yii::app()->homeUrl);
+			}
+			if (!$expense->allocations) $expense->allocations[] = new IncomeAllocationForm;
+		}
+
+		$this->render('split', array(
+			'accounts' => $accounts,
+			'categories' => $categories,
+			'expense' => $expense,
+		));
 	}
 	
 	

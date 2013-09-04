@@ -28,11 +28,6 @@ class IncomeForm extends CFormModel
 		);
 	}
 
-	public function init()
-	{
-		$this->allocations[] = new IncomeAllocationForm;
-	}
-
 	public function save()
 	{
 		if ($d = strtotime($this->date)) $this->date = date('Y-m-d', $d);
@@ -53,7 +48,7 @@ class IncomeForm extends CFormModel
 			$t->attributes = array(
 				'category_id' => $a->category_id,
 				'amount' => $a->amount * ($this->negative ? -1 : 1),
-				'notes' => $this->notes,
+				'notes' => ($this->negative ? $a->notes : $this->notes ),
 			);
 			$t->parent_id = $parent_id;
 			$t->save();

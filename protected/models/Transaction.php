@@ -18,6 +18,7 @@ class Transaction extends CActiveRecord
 			array('amount, category_id', 'required'),
 			array('category_id', 'exist', 'className' => 'Category', 'attributeName' => 'id'),
 			array('amount','numerical'),
+			array('notes','safe'),
 		);
 		
 	}

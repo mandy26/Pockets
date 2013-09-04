@@ -30,7 +30,7 @@
 			<?php echo $form->dropDownList($trans->allocations[0], 'category_id',
 				CHtml::listData($categories, 'id', 'name'), array(
 				'class' => 'input-medium', 'prompt' => 'choose a category')) ?>
-			<a href="">Split</a>
+			<?php echo CHtml::link('Split', '/dashboard/split') ?>
 			<input type="submit" class="btn">
 		</div>	
 	</div>

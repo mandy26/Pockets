@@ -90,7 +90,7 @@ function income_row($form, $a, $i, $categories) {
 		<div class="span2 <?php echo $a->hasErrors('category_id') ? 'control-group error' : '' ?>">
 			<?php echo $form->dropDownList($a, "[$i]category_id",
 				CHtml::listData($categories, 'id', 'name'), array(
-				'class' => 'input-medium', 'prompt' => 'Pick me!')) ?>
+				'class' => 'input-medium', 'prompt' => 'category')) ?>
 			<?php echo $form->error($a, 'category_id') ?>
 		</div>
 		<div class="span2 <?php echo $a->hasErrors('amount') ? 'control-group error' : '' ?>">
