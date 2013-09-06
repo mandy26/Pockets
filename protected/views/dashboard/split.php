@@ -1,4 +1,5 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
+	'action' => '/dashboard/split',
 	'htmlOptions' => array(
 		'id' => 'split-form',
 	),
@@ -58,9 +59,11 @@
 
 ob_start(); ?>
 	var split_row_number = <?php echo $i ?>;
-	jQuery('#split-form').on('change', 'input.amount, #ExpenseForm_net_amount', function() {
+	jQuery('#split-form').on('change', 'input.amount, #ExpenseForm_net_amount', function()
+	{
 		var sum = 0;
-		jQuery('#split-form input.amount').each(function(i, el) {
+		jQuery('#split-form input.amount').each(function(i, el)
+		{
 			var value = Number(jQuery(el).val());
 			if (value) sum += value;
 		});

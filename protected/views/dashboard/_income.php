@@ -105,13 +105,16 @@ function income_row($form, $a, $i, $categories) {
 
 ob_start(); ?>
 	var income_row_number = <?php echo $i ?>;
-	jQuery('#income-form').on('focus', '.income-item:last', function() {
+	jQuery('#income-form').on('focus', '.income-item:last', function()
+	{
 		income_row_number++;
 		var html = jQuery('#income-spare-row').html().replace(/\{i\}/g, income_row_number);
 		jQuery('#income-form .income-item:last').after(html);
-	}).on('change', 'input.amount, #IncomeForm_net_amount', function() {
+	}).on('change', 'input.amount, #IncomeForm_net_amount', function()
+	{
 		var sum = 0;
-		jQuery('#income-form input.amount').each(function(i, el) {
+		jQuery('#income-form input.amount').each(function(i, el)
+		{
 			var value = Number(jQuery(el).val());
 			if (value) sum += value;
 		});

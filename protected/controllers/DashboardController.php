@@ -12,10 +12,13 @@ class DashboardController extends Controller
 		if(isset($_POST['ExpenseForm']))
 		{
 			$expense->attributes=$_POST['ExpenseForm'];
-			$a = new IncomeAllocationForm;
-			$a->attributes = $_POST['IncomeAllocationForm'];
-			$a->amount = $expense->net_amount;
-			$expense->allocations = array($a);
+			$expense->allocations = array();
+			foreach ($_POST['IncomeAllocationForm'] as $row) {
+				$a = new IncomeAllocationForm;
+				$a->attributes = $row;
+				$a->amount = $expense->net_amount;
+				$expense->allocations[] = $a;
+			}
 			if ($expense->save()) {
 				$this->redirect(Yii::app()->homeUrl);
 			}
@@ -28,7 +31,7 @@ class DashboardController extends Controller
 			$income->attributes=$_POST['IncomeForm'];
 			$income->allocations = array();
 			foreach ($_POST['IncomeAllocationForm'] as $row) {
-				if (!$row['category_id'] && !$row['amount']) continue;
+				if (!@$row['category_id'] && !@$row['amount']) continue;
 				$a = new IncomeAllocationForm;
 				$a->attributes = $row;
 				$income->allocations[] = $a;
@@ -49,7 +52,7 @@ class DashboardController extends Controller
 		
 	}
 	
-	public function actionSplit ()
+	public function actionSplit($no=false)
 	{
 		$categories=Category::model()->findAll();
 		$accounts=Account::model()->findAll();
@@ -59,16 +62,29 @@ class DashboardController extends Controller
 		{
 			$expense->attributes=$_POST['ExpenseForm'];
 			$expense->allocations = array();
-			foreach ($_POST['IncomeAllocationForm'] as $row) {
-				if (!$row['category_id'] && !$row['amount']) continue;
+			if (isset($_POST['IncomeAllocationForm'])) foreach ($_POST['IncomeAllocationForm'] as $row)
+			{
+				if (!@$row['category_id'] && !@$row['amount']) continue;
 				$a = new IncomeAllocationForm;
 				$a->attributes = $row;
+				if ($no)
+				{
+					$a->amount=$expense->net_amount;
+				}
 				$expense->allocations[] = $a;
 			}
-			if ($expense->save()) {
+
+			if (!$no && $expense->save())
+			{
 				$this->redirect(Yii::app()->homeUrl);
 			}
-			if (!$expense->allocations) $expense->allocations[] = new IncomeAllocationForm;
+			if (!$expense->allocations && $expense->net_amount)
+			{
+				$a = new IncomeAllocationForm;
+				$a->amount=$expense->net_amount;
+				$expense->allocations[] = $a;
+				
+			}
 		}
 
 		$this->render('split', array(
