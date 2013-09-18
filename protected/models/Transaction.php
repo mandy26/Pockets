@@ -23,7 +23,15 @@ class Transaction extends CActiveRecord
 		
 	}
 
-	public function attributeLabels() {
+	public function relations()
+	{
+		return array(
+			'parent' => array (self::BELONGS_TO,'Padre','parent_id'),
+			);
+	}
+
+	public function attributeLabels()
+	{
 		return array(
 		);
 	}

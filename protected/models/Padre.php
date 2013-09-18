@@ -23,6 +23,13 @@ class Padre extends CActiveRecord
 		
 	}
 
+	public function relations()
+	{
+		return array(
+			'account' => array (self::BELONGS_TO,'Account','account_id'),
+			);
+	}
+
 	public function attributeLabels() {
 		return array(
 		);

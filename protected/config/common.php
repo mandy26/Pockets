@@ -7,5 +7,8 @@ return array(
 			'emulatePrepare' => true,
 			'charset' => 'utf8',
 		),
+		'format' => array(
+			'dateFormat' => 'n/j/Y',
+		),
 	),
 );

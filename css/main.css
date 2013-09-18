@@ -1,3 +1,9 @@
-#income-form {
-	xborder:1px solid red;
+.grid-view table.items
+{
+	width: auto;
+}
+
+.grid-view .items .r
+{
+	text-align: right;
 }
