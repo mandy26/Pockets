@@ -20,8 +20,8 @@
 		array(
 			'name' => '',
 			'type' => 'html',
-			'value' => 'CHtml::link("edit", array("transaction/edit", "id" => $data->id))'
-				.'." &nbsp; ".CHtml::link("view", array("transaction/view", "id" => $data->id))',
+			'value' => 'CHtml::link("edit", array("parent/edit", "id" => $data->parent->id))'
+				.'." &nbsp; ".CHtml::link("view", array("parent/view", "id" => $data->parent->id))',
 		),
 	),
 )); ?>
