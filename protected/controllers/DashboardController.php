@@ -51,58 +51,6 @@ class DashboardController extends Controller
 		
 		
 	}
-	
-	public function actionSplit($no=false)
-	{
-		$categories=Category::model()->findAll();
-		$accounts=Account::model()->findAll();
-		$expense=new ExpenseForm;
-
-		if(isset($_POST['ExpenseForm']))
-		{
-			$expense->attributes=$_POST['ExpenseForm'];
-			$expense->allocations = array();
-			if (isset($_POST['IncomeAllocationForm'])) foreach ($_POST['IncomeAllocationForm'] as $row)
-			{
-				if (!@$row['category_id'] && !@$row['amount']) continue;
-				$a = new IncomeAllocationForm;
-				$a->attributes = $row;
-				if ($no)
-				{
-					$a->amount=$expense->net_amount;
-				}
-				$expense->allocations[] = $a;
-			}
-
-			if (!$no && $expense->save())
-			{
-				$this->redirect(Yii::app()->homeUrl);
-			}
-			if (!$expense->allocations && $expense->net_amount)
-			{
-				$a = new IncomeAllocationForm;
-				$a->amount=$expense->net_amount;
-				$expense->allocations[] = $a;
-				
-			}
-		}
-
-		$this->render('split', array(
-			'accounts' => $accounts,
-			'categories' => $categories,
-			'expense' => $expense,
-		));
-	}
-	
-	
-	
-		
-		
-	
-	
-	
-		
-	
 
 	/**
 	 * This is the action to handle external exceptions.

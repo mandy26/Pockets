@@ -1,5 +1,4 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'action' => '/dashboard/split',
 	'htmlOptions' => array(
 		'id' => 'split-form',
 	),
@@ -8,6 +7,7 @@
 	<tbody class="parent">
 		<tr>
 			<td class="<?php echo $expense->hasErrors('date') ? 'control-group error' : '' ?>">
+				<?php echo $form->hiddenField($expense, 'id') ?>
 				<?php echo $form->textField($expense, 'date', array('placeholder' => 'Date', 'class' => 'input-small')) ?>
 			</td>
 			<td class="<?php echo $expense->hasErrors('account_id') ? 'control-group error' : '' ?>">
@@ -40,7 +40,7 @@
 { ?>
 	<tr>
 		<td></td>
-		<td></td>
+		<td><?php echo $form->hiddenField($a, "[$i]id") ?></td>
 		<td class="<?php echo $a->hasErrors('category_id') ? 'control-group error' : '' ?>">
 			<?php echo $form->dropDownList($a, "[$i]category_id",
 				CHtml::listData($categories, 'id', 'name'), array(

@@ -3,8 +3,9 @@
 class ParentController extends Controller
 {
 
-	public function actionEdit($id=false, $no=false)
+	public function actionEdit($id=false)
 	{
+		$no = @$_POST['no_split_save'];
 		$categories=Category::model()->findAll();
 		$accounts=Account::model()->findAll();
 
@@ -16,28 +17,38 @@ class ParentController extends Controller
 			if ($parent->net_amount < 0)
 			{
 				$form = new ExpenseForm;
-				$form->attributes = array(
-					'gross_amount' => -$parent->gross_amount,
-					'net_amount' => -$parent->net_amount,
-					'account_id' => $parent->account_id,
-					'date' => $parent->date,
-					'notes' => $parent->notes_2,
-				);
+				$sign = -1;
 			} else
 			{
 				$form = new IncomeForm;
-				$form->attributes = array(
-					'gross_amount' => $parent->gross_amount,
-					'net_amount' => $parent->net_amount,
-					'account_id' => $parent->account_id,
-					'date' => $parent->date,
-					'notes' => $parent->notes_2,
+				$sign = 1;
+			}
+			$form->attributes = array(
+				'id' => $parent->id,
+				'gross_amount' => $sign * $parent->gross_amount,
+				'net_amount' => $sign * $parent->net_amount,
+				'account_id' => $parent->account_id,
+				'date' => $parent->date,
+				'notes' => $parent->notes_2,
+			);
+			foreach ($parent->children as $child)
+			{
+				$row=new IncomeAllocationForm;
+				$row->attributes = array(
+					'id' => $child->id,
+					'category_id' => $child->category_id,
+					'amount' => $sign * $child->amount,
+					'notes' => $child->notes,
 				);
+				$form->allocations[] = $row;
 			}
 		} else if(isset($_POST['IncomeForm']))
 		{
 			$form = new IncomeForm;
 		} else if(isset($_POST['ExpenseForm']))
+		{
+			$form = new ExpenseForm;
+		} else
 		{
 			$form = new ExpenseForm;
 		}

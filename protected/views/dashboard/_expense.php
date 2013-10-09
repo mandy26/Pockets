@@ -30,7 +30,8 @@
 			<?php echo $form->dropDownList($trans->allocations[0], '[0]category_id',
 				CHtml::listData($categories, 'id', 'name'), array(
 				'class' => 'input-medium', 'prompt' => 'choose a category')) ?>
-			<?php echo CHtml::link('Split', '/dashboard/split/no/submit', array('id' => 'expense-link')) ?>
+			<?php echo CHtml::link('Split', '/parent/edit', array('id' => 'expense-link')) ?>
+			<input type="hidden" name="no_split_save" value="1" />
 			<input type="submit" class="btn">
 		</div>	
 	</div>

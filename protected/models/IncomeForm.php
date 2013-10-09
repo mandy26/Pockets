@@ -4,6 +4,7 @@ class IncomeForm extends CFormModel
 	protected $negative = false;
 	public $split = true;
 
+	public $id;
  	public $gross_amount;
 	public $net_amount;
 	public $account_id;
@@ -16,7 +17,7 @@ class IncomeForm extends CFormModel
 		return array(
 			array('net_amount, account_id, date', 'required'),
 			array('gross_amount, net_amount', 'numerical'),
-			array('notes', 'safe'),
+			array('id,notes', 'safe'),
 			array('date', 'date', 'format' => 'yyyy-MM-dd'),
 		);
 	}
@@ -32,23 +33,25 @@ class IncomeForm extends CFormModel
 	{
 		if ($d = strtotime($this->date)) $this->date = date('Y-m-d', $d);
 		if (!$this->validate() || !$this->allocations) return false;
-		$parent=new Padre;
+		if ($this->id) $parent=Padre::model()->findByPk($this->id);
+		else $parent=new Padre;
 		$parent->attributes = array(
-				'date' => $this->date,
-				'net_amount' => $this->net_amount * ($this->negative ? -1 : 1),
-				'gross_amount' => $this->gross_amount * ($this->negative ? -1 : 1),
-				'account_id' => $this->account_id,
-				'notes_2' => $this->notes,
-			);
+			'date' => $this->date,
+			'net_amount' => $this->net_amount * ($this->negative ? -1 : 1),
+			'gross_amount' => $this->gross_amount * ($this->negative ? -1 : 1),
+			'account_id' => $this->account_id,
+			'notes_2' => $this->notes,
+		);
 		$parent->save();
 		$parent_id = $parent->id;
 		foreach ($this->allocations as $a)
 		{
-			$t=new Transaction;
+			if ($a->id) $t=Transaction::model()->findByPk($a->id);
+			else $t=new Transaction;
 			$t->attributes = array(
 				'category_id' => $a->category_id,
 				'amount' => $a->amount * ($this->negative ? -1 : 1),
-				'notes' => ($this->negative ? $a->notes : $this->notes ),
+				'notes' => ($this->split ? $a->notes : $this->notes ),
 			);
 			$t->parent_id = $parent_id;
 			$t->save();

@@ -26,7 +26,8 @@ class Padre extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'account' => array (self::BELONGS_TO,'Account','account_id'),
+			'account' => array(self::BELONGS_TO,'Account','account_id'),
+			'children' => array(self::HAS_MANY,'Transaction','parent_id'),
 			);
 	}
 

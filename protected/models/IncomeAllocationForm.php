@@ -2,6 +2,7 @@
 
 class IncomeAllocationForm extends CFormModel
 {
+	public $id;
 	public $category_id;
 	public $amount;
 	public $notes;
@@ -12,7 +13,7 @@ class IncomeAllocationForm extends CFormModel
 			array('amount, category_id', 'required'),
 			array('category_id', 'exist', 'className' => 'Category', 'attributeName' => 'id'),
 			array('amount','numerical'),
-			array('notes','safe'),
+			array('id, notes','safe'),
 		);
 	}
 
