@@ -6,7 +6,7 @@
 	<?php echo $form->errorSummary($account); ?>
 
 	<div class="control-group">
-		<?php echo $form->label($account, 'name', array('class' => 'control-label', 'bar' => 'foo')); ?>
+		<?php echo $form->label($account, 'name', array('class' => 'control-label')); ?>
 		<div class="controls">
 			<?php echo $form->textField($account, 'name', array('placeholder' => 'Name')) ?>
 		</div>
