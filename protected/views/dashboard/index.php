@@ -34,7 +34,7 @@
 			<?php echo CHtml::link('Add new Account', array('account/edit')) ?>
 			
 			<?php $this->renderPartial('_income',array ('trans' => $income, 'accounts' => $accounts, 
-				'categories' => $categories)) ?>
+				'categories' => $categories, 'presets' => $presets)) ?>
 		</div>
 	</div>
 </div>

@@ -52,7 +52,10 @@
 		<div class="span4">
 			<div class="row">
 				<div class="span4 text-right">
-					<select class="span1"></select>
+					<?php echo CHtml::dropDownList('', false,
+						CHtml::listData($presets, 'id', 'name'), array(
+						'class' => 'input-medium', 'prompt' => 'Preset')) ?>
+					<?php echo CHtml::link ('edit preset', array('preset/index')) ?>
 				</div>
 			</div>
 			<?php foreach ($trans->allocations as $i => $a) income_row($form, $a, $i, $categories); ?>

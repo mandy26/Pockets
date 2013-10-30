@@ -7,6 +7,7 @@ class DashboardController extends Controller
 	{
 		$categories=Category::model()->findAll();
 		$accounts=Account::model()->findAll();
+		$presets=Preset::model()->findAll();
 		$expense=new ExpenseForm;
 		$expense->split = false;
 		if(isset($_POST['ExpenseForm']))
@@ -45,6 +46,7 @@ class DashboardController extends Controller
 		$this->render('index',array (
 			'accounts' => $accounts,
 			'categories' => $categories,
+			'presets' => $presets,
 			'expense' => $expense,
 			'income' => $income,
 		));

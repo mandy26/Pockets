@@ -53,7 +53,7 @@
 
 ob_start(); ?>
 	var preset_row_number = <?php echo $i ?>;
-	jQuery('#preset-form').on('change', 'input.amount', function()
+	jQuery('#preset-form').on('change', 'tr:last input, tr:last select', function()
 	{
 		preset_row_number++;
 		var html = jQuery('#preset-spare-row').html().replace(/\{i\}/g, preset_row_number);

@@ -39,9 +39,9 @@
 <?php function split_row($form, $a, $i, $categories)
 { ?>
 	<tr>
-		<td></td>
-		<td><?php echo $form->hiddenField($a, "[$i]id") ?></td>
+		<td colspan="2"<?php if ($i == '{i}') echo ' class="remainder"' ?>></td>
 		<td class="<?php echo $a->hasErrors('category_id') ? 'control-group error' : '' ?>">
+			<?php echo $form->hiddenField($a, "[$i]id") ?>
 			<?php echo $form->dropDownList($a, "[$i]category_id",
 				CHtml::listData($categories, 'id', 'name'), array(
 				'class' => 'input-medium', 'prompt' => 'choose a category')) ?>
@@ -59,7 +59,7 @@
 
 ob_start(); ?>
 	var split_row_number = <?php echo $i ?>;
-	jQuery('#split-form').on('change', 'input.amount, #ExpenseForm_net_amount', function()
+	var show_remainder = function()
 	{
 		var sum = 0;
 		jQuery('#split-form input.amount').each(function(i, el)
@@ -69,12 +69,18 @@ ob_start(); ?>
 		});
 		var net = Number(jQuery('#ExpenseForm_net_amount').val());
 		var remainder = (net ? net : 0) - sum;
-		if (!remainder) return;
-
+		split_form.find('.remainder').text('Amount left: $'+remainder.toFixed(2));
+	};
+	var split_form = jQuery('#split-form').on('change', 'input.amount, #ExpenseForm_net_amount', function()
+	{
+		show_remainder();
+	}).on('change', 'tr:last input, tr:last select', function()
+	{
+		split_form.find('.remainder').html('').removeClass('remainder');
 		split_row_number++;
 		var html = jQuery('#split-spare-row').html().replace(/\{i\}/g, split_row_number);
 		var row = jQuery(html).appendTo('#split-form .children');
-		row.find('input.amount').val(remainder);
+		show_remainder();
 	});
 	jQuery('#ExpenseForm_date').datepicker();
 <?php
