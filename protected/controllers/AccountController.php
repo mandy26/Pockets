@@ -46,7 +46,7 @@ class AccountController extends Controller
 
 		$criteria = new CDbCriteria(array(
 			//'with' => 'parent.account',
-			'condition' => 'account_id=:c',
+			'condition' => 'account_id=:c AND void=0',
 			'params' => array(':c' => $id),
 		));
 
@@ -61,7 +61,9 @@ class AccountController extends Controller
 		$this->render('detail', array(
 			'account' => $account,
 			'data' => new CActiveDataProvider('Padre', array(
-				'sort' => $sort,
+				'sort' => array(
+					'defaultOrder' => array('date' => CSort::SORT_DESC),
+				),
 				'criteria' => $criteria,
 			)),
 			'total' => $total,

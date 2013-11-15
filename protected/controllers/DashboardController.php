@@ -5,7 +5,7 @@ class DashboardController extends Controller
 	
 	public function actionIndex()
 	{
-		$categories=Category::model()->findAll();
+		$categories=Category::model()->findAll(array('order' => 'name'));
 		$accounts=Account::model()->findAll();
 		$presets=Preset::model()->findAll();
 		$expense=new ExpenseForm;

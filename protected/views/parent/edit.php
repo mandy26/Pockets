@@ -67,7 +67,7 @@ ob_start(); ?>
 			var value = Number(jQuery(el).val());
 			if (value) sum += value;
 		});
-		var net = Number(jQuery('#ExpenseForm_net_amount').val());
+		var net = Number(jQuery('#ExpenseForm_net_amount, #IncomeForm_net_amount').val());
 		var remainder = (net ? net : 0) - sum;
 		split_form.find('.remainder').text('Amount left: $'+remainder.toFixed(2));
 	};

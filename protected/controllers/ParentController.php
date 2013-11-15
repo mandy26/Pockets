@@ -60,7 +60,6 @@ class ParentController extends Controller
 			$form->allocations = array();
 			if (isset($_POST['IncomeAllocationForm'])) foreach ($_POST['IncomeAllocationForm'] as $row)
 			{
-				if (!@$row['category_id'] && !@$row['amount']) continue;
 				$a = new IncomeAllocationForm;
 				$a->attributes = $row;
 				if ($no)
@@ -91,7 +90,14 @@ class ParentController extends Controller
 		));
 	}
 	
-	
+	public function actionVoid($id)
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new CHttpException(400);
+		$parent = Padre::model()->findByPk($id);
+		if (!$parent) throw new CHttpException(404);
+		$parent->saveAttributes(array('void' => 1));
+		print '{"success":1}';
+	}
 
 	
 }

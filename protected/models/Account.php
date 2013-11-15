@@ -23,7 +23,8 @@ class Account extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'balance'=>array(self::STAT, 'Padre', 'account_id', 'select' => 'sum(net_amount)'),
+			'balance'=>array(self::STAT, 'Padre', 'account_id', 'select' => 'sum(net_amount)',
+				'condition' => 'void=0'),
 		);
 	}
 

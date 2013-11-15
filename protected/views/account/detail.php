@@ -19,7 +19,19 @@
 			'name' => '',
 			'type' => 'html',
 			'value' => 'CHtml::link("edit", array("parent/edit", "id" => $data->id))'
-				.'." &nbsp; ".CHtml::link("view", array("parent/view", "id" => $data->id))',
+				.'." &nbsp; ".CHtml::link("void",
+					array("parent/void", "id" => $data->id),
+					array("class" => "void"))',
 		),
 	),
-)); ?>
+));
+ob_start();
+?>
+$('body').on('click', '.void', function() {
+	if (confirm('Are you sure?')) $.post(this.href, function() {
+		window.location.reload();
+	});
+	return false;
+});
+<?php
+Yii::app()->clientScript->registerScript('account_detail', ob_get_clean());

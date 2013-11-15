@@ -48,10 +48,14 @@ class IncomeForm extends CFormModel
 		{
 			if ($a->id) $t=Transaction::model()->findByPk($a->id);
 			else $t=new Transaction;
+			if (!$a->category_id && !$a->amount) {
+				if (!$t->isNewRecord) $t->delete();
+				continue;
+			}
 			$t->attributes = array(
 				'category_id' => $a->category_id,
 				'amount' => $a->amount * ($this->negative ? -1 : 1),
-				'notes' => ($this->split ? $a->notes : $this->notes ),
+				'notes' => $a->notes,
 			);
 			$t->parent_id = $parent_id;
 			$t->save();
@@ -66,6 +70,7 @@ class IncomeForm extends CFormModel
 		$sum=0;
 		foreach ($this->allocations as $a)
 		{
+			if (!$a->category_id && !$a->amount) continue;
 			$sum+=$a->amount;
 			if (!$a->validate($this->split ? null : array('category_id'))) $success = false;
 		}

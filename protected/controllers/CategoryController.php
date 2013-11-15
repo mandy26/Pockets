@@ -32,6 +32,7 @@ class CategoryController extends Controller
 		if(!$category) throw new CHttpException(404, 'category not found');
 
 		$sort = new CSort();
+		$sort->defaultOrder = array('parent.date' => CSort::SORT_DESC);
 		$sort->attributes = array(
 			'parent.date',
 			'amount',
@@ -45,7 +46,7 @@ class CategoryController extends Controller
 
 		$criteria = new CDbCriteria(array(
 			'with' => 'parent.account',
-			'condition' => 'category_id=:c',
+			'condition' => 'category_id=:c AND parent.void=0',
 			'params' => array(':c' => $id),
 		));
 
